@@ -50,10 +50,10 @@ public class ProcessVideoBackground extends AsyncTask<String, String, VideoView>
         //ProcessVideoBackground.playList = url;
 
         try {
-            MediaController mediaController = new MediaController(context);
-            mediaController.setAnchorView(videoView);
-            videoView.setMediaController(mediaController);
-            //videoView.setMediaController(null); //by no one can control
+            //MediaController mediaController = new MediaController(context);
+            //mediaController.setAnchorView(videoView);
+            //videoView.setMediaController(mediaController);
+            videoView.setMediaController(null); //by no one can control
             videoView.setVideoURI(Uri.parse(url[0]));
             videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override

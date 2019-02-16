@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -51,6 +52,15 @@ public class MainActivity extends Activity {
         //new ProcessImageBackground((ImageView)findViewById(R.id.imageView), MainActivity.this).execute("https://images.unsplash.com/photo-1548909410-6ad3285db47b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80");
         ((ImageView) findViewById(R.id.imageView)).setVisibility(0);
         new ProcessVideoBackground((VideoView)findViewById(R.id.videoView), MainActivity.this).execute("https://app.coverr.co/s3/mp4/best_buddys.mp4","https://app.coverr.co/s3/mp4/Moped.mp4 ");
+
+        ((ConstraintLayout)findViewById(R.id.main_layout)).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TRA_setup_activity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 
     public void applyBlinkAnimation(final View view){

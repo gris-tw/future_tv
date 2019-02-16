@@ -176,14 +176,14 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_marginTop="32dp"
-                            android:background="@drawable/simple_circle"
+                            android:background="@drawable/bus_circle"
                             android:visibility="visible" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="20dp"
-                            android:text="距離下一班台鐵高雄站往屏東還有: 10 分鐘 (1131 往潮州, 行駛 32 分)。" />
+                            android:text='168[西] 到 "高雄軟體園區站" 還有 35 分鐘。  (手動延遲 20 分)' />
                     </LinearLayout>
 
                     <View
