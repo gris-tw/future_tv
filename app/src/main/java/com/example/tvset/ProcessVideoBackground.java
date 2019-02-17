@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.Arrays;
 
 public class ProcessVideoBackground extends AsyncTask<String, String, VideoView> {
-    //AOCST1
+    //AOCST1 (multi slide video play)
     /*public int count = 0;
     public static String[] playList;*/
 

@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,11 +30,15 @@ import java.net.URL;
 
 public class MainActivity extends Activity {
 
+    public static Context mainContext;
+
     @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MainActivity.mainContext = this;
 
         View lay = (View)findViewById(R.id.infoboard_bg);
         lay.setBackgroundColor(Color.rgb(0,0,0));
@@ -49,9 +54,11 @@ public class MainActivity extends Activity {
             }
         }, 1000);
 
-        //new ProcessImageBackground((ImageView)findViewById(R.id.imageView), MainActivity.this).execute("https://images.unsplash.com/photo-1548909410-6ad3285db47b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80");
-        ((ImageView) findViewById(R.id.imageView)).setVisibility(0);
-        new ProcessVideoBackground((VideoView)findViewById(R.id.videoView), MainActivity.this).execute("https://app.coverr.co/s3/mp4/best_buddys.mp4","https://app.coverr.co/s3/mp4/Moped.mp4 ");
+        ((VideoView) findViewById(R.id.videoView)).setVisibility(View.GONE);
+        new ProcessImageBackground((ImageView)findViewById(R.id.imageView), MainActivity.this).execute("https://images.unsplash.com/photo-1548909410-6ad3285db47b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80");
+
+        //((ImageView) findViewById(R.id.imageView)).setVisibility(View.GONE);
+        //new ProcessVideoBackground((VideoView)findViewById(R.id.videoView), MainActivity.this).execute("https://app.coverr.co/s3/mp4/best_buddys.mp4","https://app.coverr.co/s3/mp4/Moped.mp4 ");
 
         ((ConstraintLayout)findViewById(R.id.main_layout)).setOnLongClickListener(new View.OnLongClickListener() {
             @Override

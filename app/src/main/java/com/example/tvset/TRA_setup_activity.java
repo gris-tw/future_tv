@@ -1,6 +1,8 @@
 package com.example.tvset;
 
 import android.animation.ArgbEvaluator;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -15,13 +17,27 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.support.v7.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TRA_setup_activity extends AppCompatActivity {
 
@@ -43,6 +59,7 @@ public class TRA_setup_activity extends AppCompatActivity {
 
     int page = 0;   //  to track page
 
+    final static int pageLength = 5;
     static int[] colorList;
 
 
@@ -91,12 +108,8 @@ public class TRA_setup_activity extends AppCompatActivity {
 
 
         //color
-        final int color1 = ContextCompat.getColor(this, R.color.cyan);
-        final int color2 = ContextCompat.getColor(this, R.color.orange);
-        final int color3 = ContextCompat.getColor(this, R.color.green);
-        final int color4 = ContextCompat.getColor(this, R.color.blue);
-        final int color5 = ContextCompat.getColor(this, R.color.brown);
-        colorList = new int[]{color1, color2, color3, color4, color5};
+        colorList = colors(this, R.color.cyan, R.color.orange, R.color.green, R.color.blue, R.color.brown);
+
         final ArgbEvaluator evaluator = new ArgbEvaluator();
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -160,11 +173,13 @@ public class TRA_setup_activity extends AppCompatActivity {
     }
 
     //util tool
-    private int[] colors(Context context,int ...cs){
-        ArrayList colorArray = new ArrayList();
+    private int[] colors(Context context, int ...cs){
+        int[] colorArray = new int[cs.length];
+
         for (int i = 0;i< cs.length; i++){
-            new int []
+            colorArray[i] = (ContextCompat.getColor(context, cs[i]));
         }
+        return colorArray;
     }
 
 
@@ -223,6 +238,34 @@ public class TRA_setup_activity extends AppCompatActivity {
             switch (getArguments().getInt(ARG_SECTION_NUMBER)-1 ){
                 case 0:
                     textView.setText("選擇起站縣市");
+                    //處理縣市 (地區改成市)
+                    //http://twtraffic.tra.gov.tw/twrail/Services/BaseDataServ.ashx [POST]  datatype=city&language=tw.
+
+                    System.out.println("------------------------------------------------------------");
+                    View.OnClickListener onclick =  new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            System.out.println("Clicked!");
+                        }
+                    };
+
+                    try {
+                        new AsyncHTTPPost(
+                                (GridLayout)rootView.findViewById(R.id.content_grid),
+                                onclick,
+                                MainActivity.mainContext
+                        ).execute(
+                                "http://twtraffic.tra.gov.tw/twrail/Services/BaseDataServ.ashx",
+                                "datatype=city"
+                        );
+
+                    }catch (Exception e){
+                        System.out.println(e);
+                    }
+                    //TRA 搜尋站牌 ID
+                    //https://ptx.transportdata.tw/MOTC/v2/Rail/TRA/Station?$format=JSON&$filter=contains(StationName/Zh_tw, '正義')
+
+                    //https://ptx.transportdata.tw
                     break;
                 case 1:
                     textView.setText("選擇起站車站");
@@ -240,7 +283,6 @@ public class TRA_setup_activity extends AppCompatActivity {
 
             return rootView;
         }
-
 
     }
 
@@ -260,13 +302,12 @@ public class TRA_setup_activity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
-
         }
 
         @Override
         public int getCount() {
             // Show 5 total pages.
-            return TRA_setup_activity.colorList.length;
+            return TRA_setup_activity.pageLength;
         }
 
         @Override
