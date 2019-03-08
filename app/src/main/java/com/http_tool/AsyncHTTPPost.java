@@ -15,12 +15,10 @@ public class AsyncHTTPPost extends AsyncTask<String, String, String> {
     private ProgressDialog dialog;
     private GridLayout contentGrid;
     private Context context;
-    private View.OnClickListener selectListener;
 
-    public AsyncHTTPPost(GridLayout contentGrid,View.OnClickListener selectListener , Context context){
+    public AsyncHTTPPost(GridLayout contentGrid , Context context){
         this.contentGrid = contentGrid;
         this.context = context;
-        this.selectListener = selectListener;
     }
 
     @Override

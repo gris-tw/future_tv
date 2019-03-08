@@ -7,14 +7,14 @@
     >
 
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="375dp">
 
         <android.support.v7.widget.GridLayout
             android:id="@+id/content_grid"
             android:layout_width="wrap_content"
-            android:layout_height="375dp"
+            android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="25dp"
             android:padding="14dp"
@@ -157,7 +157,7 @@
                     tools:text="屏東市" />
             </android.support.v7.widget.CardView>
         </android.support.v7.widget.GridLayout>
-    </FrameLayout>
+    </ScrollView>
 
 
     <LinearLayout

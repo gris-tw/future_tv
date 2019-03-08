@@ -1,6 +1,7 @@
 package com.example.futuretv;
 
 import android.animation.ArgbEvaluator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -11,6 +12,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v4.app.Fragment;
@@ -34,8 +36,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.element.CardView_TV;
+import com.gris.tw.HttpsPostProxyClient;
+import com.gris.tw.ptx.train.NationalStationInfo;
 import com.http_tool.AsyncHTTPPost;
 import com.util.unitc;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
 
 public class TRA_setup_activity extends AppCompatActivity {
 
@@ -60,6 +70,7 @@ public class TRA_setup_activity extends AppCompatActivity {
     final static int pageLength = 5;
     static int[] colorList;
 
+    public static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +84,8 @@ public class TRA_setup_activity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_tra_setup_activity);
 
+        //share activity state
+        activity = this;
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -256,7 +269,6 @@ public class TRA_setup_activity extends AppCompatActivity {
                     try {
                         new AsyncHTTPPost(
                                 (GridLayout)rootView.findViewById(R.id.content_grid),
-                                onclick,
                                 MainActivity.mainContext
                         ).execute(
                                 "http://twtraffic.tra.gov.tw/twrail/Services/BaseDataServ.ashx",
@@ -270,15 +282,42 @@ public class TRA_setup_activity extends AppCompatActivity {
                     //https://ptx.transportdata.tw/MOTC/v2/Rail/TRA/Station?$format=JSON&$filter=contains(StationName/Zh_tw, '正義')
 
                     //https://ptx.transportdata.tw
+                    new Thread(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                HttpsPostProxyClient.ProxyURL = "http://192.168.1.2/ptx-service";
+                                NationalStationInfo nsi = new NationalStationInfo();
+                                JSONArray cities = nsi.getCities("TC");
+                                for (int i = 0; i < cities.length(); i++) {
+                                    final JSONObject c = cities.getJSONObject(i);
+                                    TRA_setup_activity.activity.runOnUiThread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            // Stuff that updates the UI
+                                            try {
+                                                addCardToGridLayout(c.getString("City_Name"), c.getString("City_Code"));
+                                            } catch (JSONException e) {
+                                                System.out.println("JSON Parse Failed");
+                                            }
+                                        }
+                                    });
+
+                                }
+
+                                addCardToGridLayout("銀川市", "cool");
+                            }catch (Exception e){
+                                System.out.println("deadedadeadadadadadada");
+                                System.out.println(e);
+                            }
+                        }
+                    }).start();
+
                     break;
                 case 1:
                     textView.setText("選擇起站車站");
-                    addCardToGridLayout("銀川市", "cool");
-                    addCardToGridLayout("銀川市", "cool");
-                    addCardToGridLayout("銀川市", "cool");
-                    addCardToGridLayout("銀川市", "cool");
-                    addCardToGridLayout("銀川市", "cool");
-                    addCardToGridLayout("銀川市", "cool");
+
 
                     break;
                 case 2:
