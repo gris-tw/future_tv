@@ -1,4 +1,4 @@
-package com.example.tvset;
+package com.example.futuretv;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -1,19 +1,11 @@
-package com.example.tvset;
+package com.styles;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.VideoView;
-
-import java.net.URL;
-import java.util.Arrays;
 
 public class ProcessVideoBackground extends AsyncTask<String, String, VideoView> {
     //AOCST1 (multi slide video play)

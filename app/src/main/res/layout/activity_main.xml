@@ -81,7 +81,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <com.example.tvset.AutoResizeTextView
+                            <com.example.futuretv.AutoResizeTextView
                                 android:id="@+id/textView"
                                 android:layout_width="match_parent"
                                 android:layout_height="90dp"

@@ -1,11 +1,10 @@
-package com.example.tvset;
+package com.styles;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.StrictMode;
 import android.widget.ImageView;
 
 import java.net.URL;

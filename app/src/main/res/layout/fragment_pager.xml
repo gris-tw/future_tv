@@ -51,6 +51,30 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/cyan_50"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans_bold"
+                    android:padding="20dp"
+                    android:text="屏東市"
+                    android:textAlignment="center"
+                    android:textColor="@color/cyan"
+                    android:textSize="25sp"
+                    tools:text="屏東市" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
                 app:cardBackgroundColor="@color/cyan_50"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp">

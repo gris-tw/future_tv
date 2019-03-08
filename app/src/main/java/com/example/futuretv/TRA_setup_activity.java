@@ -1,14 +1,18 @@
-package com.example.tvset;
+package com.example.futuretv;
 
 import android.animation.ArgbEvaluator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v17.leanback.widget.BaseCardView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,7 +21,9 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.CardView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,17 +33,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import com.element.CardView_TV;
+import com.http_tool.AsyncHTTPPost;
+import com.util.unitc;
 
 public class TRA_setup_activity extends AppCompatActivity {
 
@@ -147,8 +145,7 @@ public class TRA_setup_activity extends AppCompatActivity {
         mNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                page += 1;
-                mViewPager.setCurrentItem(page, true);
+                changeToNextPager();
             }
         });
 
@@ -170,6 +167,11 @@ public class TRA_setup_activity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void changeToNextPager(){
+        page += 1;
+        mViewPager.setCurrentItem(page, true);
     }
 
     //util tool
@@ -229,10 +231,12 @@ public class TRA_setup_activity extends AppCompatActivity {
             return fragment;
         }
 
+        private View rootView; //app root view layout shared
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_pager, container, false);
+            rootView = inflater.inflate(R.layout.fragment_pager, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 
             switch (getArguments().getInt(ARG_SECTION_NUMBER)-1 ){
@@ -269,6 +273,13 @@ public class TRA_setup_activity extends AppCompatActivity {
                     break;
                 case 1:
                     textView.setText("選擇起站車站");
+                    addCardToGridLayout("銀川市", "cool");
+                    addCardToGridLayout("銀川市", "cool");
+                    addCardToGridLayout("銀川市", "cool");
+                    addCardToGridLayout("銀川市", "cool");
+                    addCardToGridLayout("銀川市", "cool");
+                    addCardToGridLayout("銀川市", "cool");
+
                     break;
                 case 2:
                     textView.setText("選擇迄站縣市");
@@ -284,7 +295,51 @@ public class TRA_setup_activity extends AppCompatActivity {
             return rootView;
         }
 
+        public void addCardToGridLayout(String cityName, String app_content){
+            unitc conv = new unitc(rootView.getContext());
+
+            GridLayout gv = (GridLayout) rootView.findViewById(R.id.content_grid);
+
+            CardView_TV card = new CardView_TV(rootView.getContext());
+            card.setClickable(true);
+            card.setCardBackgroundColor(getResources().getColor(R.color.cyan_50));
+
+
+            //android:foreground
+            int[] attrs = new int[]{R.attr.selectableItemBackground};
+            TypedArray typedArray = getActivity().obtainStyledAttributes(attrs);
+            card.setForeground(typedArray.getDrawable(0));
+            typedArray.recycle();
+
+
+            card.setRadius(conv.dpToPx(8));
+            card.setElevation(conv.dpToPx(8));
+            ViewGroup.LayoutParams l = new BaseCardView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ((BaseCardView.LayoutParams) l).setMargins(conv.dpToPx(16),0,conv.dpToPx(16),conv.dpToPx(16));
+            card.setLayoutParams(l);
+
+            card.app_content = app_content;
+
+
+            TextView tv = new TextView(rootView.getContext());
+            tv.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+            tv.setText(cityName);
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) conv.dpToPx(150),ViewGroup.LayoutParams.WRAP_CONTENT);
+            tv.setPadding((int) conv.dpToPx(20),(int) conv.dpToPx(20),(int) conv.dpToPx(20),(int) conv.dpToPx(20));
+            tv.setTypeface(Typeface.create("@font/noto_sans_bold", Typeface.BOLD));
+            tv.setLayoutParams(params);
+            tv.setTextColor(getResources().getColor(R.color.cyan));
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tv.setTextSize(25);
+
+            card.addView(tv);
+
+
+            gv.addView(card);
+        }
     }
+
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

@@ -1,32 +1,19 @@
-package com.example.tvset;
+package com.example.futuretv;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
-import android.view.animation.Animation;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
-import java.net.URL;
+import com.styles.ProcessImageBackground;
 
 public class MainActivity extends Activity {
 

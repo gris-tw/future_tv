@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@color/cyan"
     android:layout_height="match_parent"
-    tools:context="com.example.tvset.TRA_setup_activity"
+    tools:context="com.example.futuretv.TRA_setup_activity"
     >
 
     <android.support.v4.view.ViewPager
